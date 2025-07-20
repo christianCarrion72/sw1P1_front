@@ -1,0 +1,129 @@
+<div class="flex h-screen w-full">
+
+  <!-- Panel izquierdo: SidebarIzq -->
+  <app-sidebar-izq *ngIf="!isPreviewMode" class="bg-zinc-800 w-[20%] p-4 border-r border-gray-300 overflow-y-auto"
+    [components]="getCurrentPage()?.components || []" [roomCode]="roomCode" [contextMenu]="contextMenu"
+    [isModalOpen]="isModalOpen" [pages]="pages" [selectedPageId]="selectedPageId" (selectPage)="selectPage($event)"
+    (addPage)="addPage()" (togglePreview)="togglePreviewMode()" [isPreview]="isPreviewMode">
+  </app-sidebar-izq>
+
+  <!-- Panel central: Canvas -->
+  <div [class.flex-1]="!isPreviewMode" [class.w-full]="isPreviewMode"
+    class="flex flex-col flex-1 border-none overflow-auto relative bg-gray-100">
+
+    <div #canvas [ngClass]="{
+    'preview-bg border-none': isPreviewMode,
+    'work-bg border border-gray-300': !isPreviewMode
+  }" class="flex-1 relative overflow-auto py-8 transition-all duration-300" (contextmenu)="onCanvasContextMenu($event)"
+      (mousemove)="onMouseMove($event)" (mouseup)="onMouseUp($event)" (wheel)="onWheel($event)">
+
+      
+              
+      <!-- Indicador de zoom -->
+      <div class="absolute top-4 right-4 text-sm bg-black/60 text-white px-2 py-1 rounded z-[1000]"
+        style="pointer-events: none;">
+        Zoom: {{ (zoomLevel * 100) | number:'1.0-0' }}%
+      </div>
+      <!-- Botón de Reset Zoom -->
+      <button (click)="resetZoom()"
+        class="absolute top-16 right-4 bg-blue-600 hover:bg-blue-700 text-white text-xs px-3 py-1 rounded shadow z-[1000]">
+        🔄 Reset Zoom
+      </button>
+
+      <!-- Área de trabajo simulando laptop -->
+      <div class="absolute top-0 left-0" style="width: 1440px; height: 900px; overflow: visible;"
+        [style.zoom]="zoomLevel">
+
+
+
+
+        <!-- Renderizado de componentes de la página seleccionada -->
+        <ng-container *ngFor="let comp of getCurrentPage()?.components">
+          <ng-container *ngTemplateOutlet="renderComponent; context: { comp: comp }"></ng-container>
+        </ng-container>
+      </div>
+
+      <!-- Menú contextual -->
+      <div *ngIf="contextMenu.visible" [style.left.px]="contextMenu.x" [style.top.px]="contextMenu.y"
+        class="fixed bg-white border rounded shadow z-[1000]">
+        <button (click)="addChild(contextMenu.targetId)" class="block px-4 py-2 hover:bg-gray-100 w-full text-left">
+          ➕ Agregar hijo
+        </button>
+        <button (click)="copyComponent(findComponentById(contextMenu.targetId)!)"
+          class="block px-4 py-2 hover:bg-gray-100 w-full text-left">
+          📄 Copiar
+        </button>
+        <button (click)="cutComponent(findComponentById(contextMenu.targetId)!)"
+          class="block px-4 py-2 hover:bg-gray-100 w-full text-left">
+          ✂️ Cortar
+        </button>
+        <button (click)="pasteComponent(contextMenu.targetId)"
+          class="block px-4 py-2 hover:bg-gray-100 w-full text-left">
+          📋 Pegar dentro
+        </button>
+        <button (click)="removeComponent(contextMenu.targetId)"
+          class="block px-4 py-2 hover:bg-gray-100 w-full text-left">
+          🗑️ Eliminar
+        </button>
+      </div>
+  
+    </div>
+   
+            
+  </div>
+
+  <!-- Panel derecho: SidebarDer -->
+  <aside *ngIf="!isPreviewMode" class="w-[20%] bg-zinc-800 p-4 overflow-y-auto">
+    <app-navegation></app-navegation>
+    <app-sidebar-der [selectedComponent]="selectedComponent" [roomCode]="roomCode"
+      [selectedPageId]="selectedPageId"></app-sidebar-der>
+  </aside>
+
+  <!-- Template de renderizado recursivo -->
+  <ng-template #renderComponent let-comp="comp">
+    <ng-container [ngSwitch]="comp.type">
+
+      <!-- SELECT -->
+      <select *ngSwitchCase="'select'" [ngStyle]="comp.style" class="border p-2 w-full cursor-pointer"
+        (mousedown)="onMouseDown($event, comp)" (click)="selectComponent(comp, $event)"
+        (contextmenu)="onComponentContextMenu($event, comp.id)">
+        <option *ngFor="let child of comp.children">{{ child.content }}</option>
+      </select>
+
+ 
+      <!-- Table -->
+      <table *ngSwitchCase="'table'" [ngStyle]="comp.style" class="border border-gray-400 table-auto bg-white shadow-sm"
+        (click)="selectComponent(comp, $event)" (mousedown)="onMouseDown($event, comp)"
+        (contextmenu)="onComponentContextMenu($event, comp.id)">
+
+        <tr *ngFor="let row of comp.children">
+          <td *ngFor="let cell of row.children" [ngStyle]="cell.style"
+            class="border border-gray-300 p-2 text-sm hover:bg-gray-100 cursor-pointer"
+            (dblclick)="selectComponent(cell, $event)">
+            {{ cell.content }}
+          </td>
+        </tr>
+      </table>
+
+
+
+      <!-- CUALQUIER OTRO COMPONENTE -->
+      <div *ngSwitchDefault class="border p-2 text-center cursor-move" [ngStyle]="comp.style"
+        [style.position]="comp.parentId ? 'absolute' : 'absolute'" [style.min-width.px]="50" [style.min-height.px]="40"
+        (mousedown)="onMouseDown($event, comp)" (click)="selectComponent(comp, $event)"
+        (contextmenu)="onComponentContextMenu($event, comp.id)">
+        {{ comp.content || comp.label }}
+
+        <ng-container *ngIf="comp.children">
+          <ng-container *ngFor="let child of comp.children">
+            <ng-container *ngTemplateOutlet="renderComponent; context: { comp: child }"></ng-container>
+          </ng-container>
+        </ng-container>
+      </div>
+
+    </ng-container>
+  </ng-template>
+
+
+  
+</div>

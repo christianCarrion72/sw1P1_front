@@ -1,0 +1,50 @@
+<section class="min-h-screen flex flex-col bg-gradient-to-r bg-gray-200">
+  <!-- Encabezado -->
+  <header class="bg-graygreen-800 shadow w-full py-4 px-8 flex justify-end">
+    <div class="flex items-center space-x-4">
+      <button (click)="logout()"
+        class="px-4 py-2 text-sm font-semibold text-white bg-red-800 rounded-md hover:bg-gray-200 hover:text-gray-900">
+        Finalizar sesión
+      </button>
+    </div>
+  </header>
+
+  <<!-- Contenido principal -->
+    <div class="flex flex-col items-center justify-center lg:flex-col">
+      <!-- Crear Sala arriba -->
+      <div class="bg-white rounded-lg shadow-lg p-8 m-4 w-auto lg:w-1/3">
+        <h2 class="text-xl font-bold mb-6 text-center">Crear una Sala</h2>
+        <form (ngSubmit)="createRoom()" class="space-y-4">
+          <div>
+            <label for="roomName" class="block text-sm font-medium text-gray-700">Nombre de la Sala</label>
+            <input [(ngModel)]="roomName" name="roomName" type="text" id="roomName" placeholder="Nombre de la sala"
+              class="mt-1 block w-full p-2.5 border border-gray-300 rounded-md" />
+          </div>
+          <button type="submit"
+            class="w-full bg-slate-700 text-white font-medium rounded-lg py-2.5 text-center hover:bg-slate-800 focus:outline-none">
+            Crear Sala
+          </button>
+        </form>
+      </div>
+
+      <!-- Unirse a Sala abajo -->
+      <div class="bg-white rounded-lg shadow-lg p-8 m-4 w-auto lg:w-1/3">
+        <h2 class="text-xl font-bold mb-6 text-center">Ingresar a una Sala</h2>
+        <form (ngSubmit)="joinRoom()" class="space-y-4">
+          <div>
+            <label for="roomCode" class="block text-sm font-medium text-gray-700">Código de la Sala</label>
+            <input [(ngModel)]="roomCode" name="roomCode" type="text" id="roomCode" placeholder="Código de la sala"
+              class="mt-1 block w-full p-2.5 border border-gray-300 rounded-md" />
+          </div>
+          <button type="submit"
+            class="w-full bg-emerald-600 text-white font-medium rounded-lg py-2.5 text-center hover:bg-green-700 focus:outline-none">
+            Ingresar a Sala
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <div>
+
+    </div>
+</section>

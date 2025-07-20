@@ -1,0 +1,10 @@
+.preview-bg {
+    background-color: white !important;
+    border: none !important;
+  }
+  
+  .work-bg {
+    background-color: #f3f4f6 !important; /* similar a bg-gray-100 */
+    border: 1px solid #d1d5db; /* similar a border-gray-300 */
+  }
+/* ......... */
