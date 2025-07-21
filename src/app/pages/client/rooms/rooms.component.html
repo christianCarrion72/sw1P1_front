@@ -105,7 +105,21 @@
         </tr>
       </table>
 
+      <!-- Checkbox -->
+      <div *ngSwitchCase="'checkbox'" [ngStyle]="comp.style" class="flex items-center gap-2"
+        (mousedown)="onMouseDown($event, comp)" (click)="selectComponent(comp, $event)"
+        (contextmenu)="onComponentContextMenu($event, comp.id)">
+        <input type="checkbox" [checked]="comp.checked" class="form-checkbox h-4 w-4 text-blue-600">
+        <label class="text-sm">{{ comp.content }}</label>
+      </div>
 
+      <!-- Radio -->
+      <div *ngSwitchCase="'radio'" [ngStyle]="comp.style" class="flex items-center gap-2"
+        (mousedown)="onMouseDown($event, comp)" (click)="selectComponent(comp, $event)"
+        (contextmenu)="onComponentContextMenu($event, comp.id)">
+        <input type="radio" [name]="comp.groupName" [checked]="comp.checked" class="form-radio h-4 w-4 text-blue-600">
+        <label class="text-sm">{{ comp.content }}</label>
+      </div>
 
       <!-- CUALQUIER OTRO COMPONENTE -->
       <div *ngSwitchDefault class="border p-2 text-center cursor-move" [ngStyle]="comp.style"

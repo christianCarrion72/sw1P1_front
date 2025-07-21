@@ -248,6 +248,47 @@ export class SidebarIzqComponent implements OnInit {
     this.SokectSevice.addCanvasComponent(this.roomCode, this.selectedPageId!, tableComponent);
     this.contextMenu.visible = false;
   }
+
+  addCheckboxComponent() {
+    const checkboxComponent: CanvasComponent = {
+      id: uuidv4(),
+      type: 'checkbox',
+      style: {
+        top: '120px',
+        left: '120px',
+        position: 'absolute',
+        fontSize: '14px',
+        fontFamily: 'Arial, sans-serif',
+      },
+      content: 'Opción de checkbox',
+      checked: false,
+      parentId: null,
+    };
+
+    this.SokectSevice.addCanvasComponent(this.roomCode, this.selectedPageId!, checkboxComponent);
+    this.contextMenu.visible = false;
+  }
+
+  addRadioComponent() {
+    const radioComponent: CanvasComponent = {
+      id: uuidv4(),
+      type: 'radio',
+      style: {
+        top: '150px',
+        left: '150px',
+        position: 'absolute',
+        fontSize: '14px',
+        fontFamily: 'Arial, sans-serif',
+      },
+      content: 'Opción de radio',
+      checked: false,
+      groupName: 'radioGroup1', // Permite agrupar radios relacionados
+      parentId: null,
+    };
+
+    this.SokectSevice.addCanvasComponent(this.roomCode, this.selectedPageId!, radioComponent);
+    this.contextMenu.visible = false;
+  }
   
 
   openHtmlModal() {
@@ -268,6 +309,22 @@ export class SidebarIzqComponent implements OnInit {
         .join(' ');
   
       cssMap.set(className, styleString);
+
+      // Manejo especial para checkbox
+      if (comp.type === 'checkbox') {
+        return `<div class="${className}">
+          <input type="checkbox" id="${comp.id}" ${comp.checked ? 'checked' : ''}>
+          <label for="${comp.id}">${comp.content}</label>
+        </div>`;
+      }
+
+      // Manejo especial para radio
+      if (comp.type === 'radio') {
+        return `<div class="${className}">
+          <input type="radio" name="${comp.groupName}" id="${comp.id}" ${comp.checked ? 'checked' : ''}>
+          <label for="${comp.id}">${comp.content}</label>
+        </div>`;
+      }
   
       const tag = comp.type || 'div';
       const childrenHtml = (comp.children?.map(renderComponent).join('') || '');
@@ -344,7 +401,16 @@ export class SidebarIzqComponent implements OnInit {
       const styleString = Object.entries(comp.style)
         .map(([key, val]) => `${key}: ${val};`)
         .join(' ');
-      const css = `.${comp.id} {\n  ${styleString}\n}\n`;
+      
+      let css = `.${comp.id} {\n  ${styleString}\n}\n`;
+      
+      // Estilos adicionales para checkbox y radio
+      if (comp.type === 'checkbox' || comp.type === 'radio') {
+        css += `.${comp.id} { display: flex; align-items: center; gap: 0.5rem; }\n`;
+        css += `.${comp.id} input { width: 16px; height: 16px; }\n`;
+        css += `.${comp.id} label { margin-left: 4px; }\n`;
+      }
+      
       const childrenCss = comp.children?.map(collectStyles).join('') || '';
       return css + childrenCss;
     };

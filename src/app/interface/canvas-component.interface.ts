@@ -47,4 +47,7 @@ export interface CanvasComponent {
   children?: CanvasComponent[];
   parentId?: string | null;
   content?: string; // contenido textual para tags como label
+  checked?: boolean; // para checkbox y radio
+  groupName?: string; // para agrupar radio buttons
+  label?: string; // etiqueta alternativa para checkbox/radio
 }
