@@ -1,311 +1,470 @@
-<h2 class="text-lg font-semibold mb-4 text-white">Propiedades </h2>
+<div class="h-full bg-gradient-to-b from-slate-800 via-slate-900 to-slate-800 text-white overflow-y-auto custom-scrollbar">
+  <div class="sticky top-0 bg-gradient-to-r from-slate-800 to-purple-800 p-4 border-b border-white/10 z-10">
+    <h2 class="text-xl font-bold bg-gradient-to-r from-white to-purple-200 bg-clip-text text-transparent flex items-center gap-2">
+      <div class="w-1.5 h-6 bg-gradient-to-b from-purple-400 to-pink-400 rounded-full"></div>
+      Propiedades
+    </h2>
+  </div>
 
-<div *ngIf="selectedComponent" class="text-white space-y-2">
-    <hr>
-
-    <div class="space-y-2">
-        <p class="block  font-sans text-base leading-relaxed text-inherit font-medium ">
-            Posicion
-        </p>
-        <div class="grid grid-cols-2 gap-4 ">
-
-            <div>
-                <label class="block mb-1 text-xs font-medium">Left (x)</label>
-                <input type="number" [ngModel]="parsePxValue(selectedComponent.style.left)"
-                    (ngModelChange)="Propiedades($event, 'left')"
-                    class="w-full border p-1 rounded-md bg-gray-800 border-none " />
-            </div>
-
-            <div>
-                <label class="block mb-1 text-xs font-medium">Top (y)</label>
-                <input type="number" [ngModel]="parsePxValue(selectedComponent.style.top)"
-                    (ngModelChange)="Propiedades($event, 'top')"
-                    class="w-full border p-1 rounded-md bg-gray-800 border-none " />
-            </div>
+  <div *ngIf="selectedComponent" class="p-6 space-y-8">
+    
+    <section class="space-y-4">
+      <div class="flex items-center gap-2 mb-4">
+        <div class="w-8 h-8 bg-blue-500/20 rounded-lg flex items-center justify-center">
+          <span class="text-lg">📐</span>
         </div>
-        <p class="block  font-sans text-base leading-relaxed text-inherit font-medium ">
-            Dimencion
-        </p>
-        <div class="grid grid-cols-2 gap-4 ">
-
-            <div>
-                <label class="block mb-1 text-xs font-medium">Ancho (px)</label>
-                <input type="number" [ngModel]="parsePxValue(selectedComponent.style.width)"
-                    (ngModelChange)="Propiedades($event, 'width')"
-                    class="w-full border p-1 rounded-md bg-gray-800 border-none" />
+        <h3 class="text-lg font-semibold text-blue-300">Posición y Dimensiones</h3>
+      </div>
+      
+      <div class="bg-white/5 backdrop-blur-sm rounded-xl p-4 border border-white/10">
+        <div class="mb-6">
+          <h4 class="text-sm font-medium text-gray-300 mb-3">Posición</h4>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4"> <div class="space-y-2">
+              <label class="text-xs font-medium text-gray-400 uppercase tracking-wide">Left (X)</label>
+              <div class="relative">
+                <input type="number" 
+                  [ngModel]="parsePxValue(selectedComponent.style.left)"
+                  (ngModelChange)="Propiedades($event, 'left')"
+                  class="w-full bg-slate-800 border border-slate-600 rounded-lg px-3 py-2 text-white placeholder-gray-400 focus:border-purple-400 focus:outline-none transition-colors" />
+                <span class="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">px</span> </div>
             </div>
-
-            <div>
-                <label class="block mb-1 text-xs font-medium">Alto (px)</label>
-                <input type="number" [ngModel]="parsePxValue(selectedComponent.style.height)"
-                    (ngModelChange)="Propiedades($event, 'height')"
-                    class="w-full border p-1 rounded-md bg-gray-800 border-none " />
+            <div class="space-y-2">
+              <label class="text-xs font-medium text-gray-400 uppercase tracking-wide">Top (Y)</label>
+              <div class="relative">
+                <input type="number" 
+                  [ngModel]="parsePxValue(selectedComponent.style.top)"
+                  (ngModelChange)="Propiedades($event, 'top')"
+                  class="w-full bg-slate-800 border border-slate-600 rounded-lg px-3 py-2 text-white placeholder-gray-400 focus:border-purple-400 focus:outline-none transition-colors" />
+                <span class="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">px</span> </div>
             </div>
-        </div>
-    </div>
-
-    <hr>
-    <div class="space-y-2">
-        <p class="block  font-sans text-base leading-relaxed text-inherit font-medium ">
-            Apariencia
-        </p>
-        <div class="grid grid-cols-2 gap-4 ">
-            <!-- Color de fondo -->
-            <div class="mb-2">
-                <label class="block mb-1 text-xs font-medium text-white">Color de fondo</label>
-                <div class="flex items-center gap-2 bg-gray-800 rounded px-2 py-1 text-white">
-
-                    <!-- Input tipo color sin borde -->
-                    <input type="color" [ngModel]="selectedComponent.style.backgroundColor"
-                        (ngModelChange)="Propiedades($event, 'backgroundColor')"
-                        class="w-6 h-6 rounded cursor-pointer p-0 outline-none border-0 bg-transparent appearance-none" />
-
-                    <!-- Input texto editable -->
-                    <input type="text" [ngModel]="selectedComponent.style.backgroundColor"
-                        (ngModelChange)="Propiedades($event, 'backgroundColor')"
-                        class="w-20 bg-transparent text-xs font-mono focus:outline-none border-none" />
-                </div>
-            </div>
-            <!-- color de texto -->
-            <div class="mb-2">
-                <label class="block mb-1 text-xs font-medium text-white">Color del texto</label>
-                <div class="flex items-center gap-2 bg-gray-800 rounded px-2 py-1 text-white">
-                    <!-- Input tipo color -->
-                    <input type="color" [ngModel]="selectedComponent.style.color || '#000000'"
-                        (ngModelChange)="Propiedades($event, 'color')"
-                        class="w-6 h-6 rounded cursor-pointer p-0 outline-none border-0 bg-transparent appearance-none" />
-
-                    <!-- Input texto editable -->
-                    <input type="text" [ngModel]="selectedComponent.style.color || '#000000'"
-                        (ngModelChange)="Propiedades($event, 'color')"
-                        class="w-20 bg-transparent text-xs font-mono focus:outline-none border-none" />
-                </div>
-            </div>
-
+          </div>
         </div>
 
-
-        <div class="grid grid-cols-2 gap-4 ">
-            <!-- Bordes -->
-            <div class="mb-2">
-                <label class="block mb-1 text-xs font-medium text-white">Color del borde</label>
-                <div class="flex items-center gap-2 bg-gray-800 rounded px-2 py-1 text-white">
-
-                    <!-- Input tipo color sin borde -->
-                    <input type="color" [ngModel]="getBorderProperty('color')"
-                        (ngModelChange)="setBorderProperty('color', $event)"
-                        class="w-6 h-6 rounded cursor-pointer p-0 outline-none border-0 bg-transparent appearance-none" />
-
-
-                    <input type="text" [ngModel]="getBorderProperty('color')"
-                        (ngModelChange)="setBorderProperty('color', $event)"
-                        class="w-20 bg-transparent text-xs font-mono focus:outline-none border-none" />
-                </div>
+        <div>
+          <h4 class="text-sm font-medium text-gray-300 mb-3">Dimensiones</h4>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4"> <div class="space-y-2">
+              <label class="text-xs font-medium text-gray-400 uppercase tracking-wide">Ancho</label>
+              <div class="relative">
+                <input type="number" 
+                  [ngModel]="parsePxValue(selectedComponent.style.width)"
+                  (ngModelChange)="Propiedades($event, 'width')"
+                  class="w-full bg-slate-800 border border-slate-600 rounded-lg px-3 py-2 text-white placeholder-gray-400 focus:border-purple-400 focus:outline-none transition-colors" />
+                <span class="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">px</span> </div>
             </div>
-            <div class="mb-2">
-                <label class="block mb-1 text-xs font-medium text-white">Grosor del borde (px)</label>
-                <div class="flex items-center gap-2 bg-gray-800 rounded px-2 py-1 text-white">
-
-                    <input type="number" min="0" [ngModel]="getBorderProperty('width')"
-                        (ngModelChange)="setBorderProperty('width', $event)"
-                        class="w-full bg-transparent  font-mono border-none outline-none p-1" />
-
-                    <span class="text-xs">px</span>
-                </div>
+            <div class="space-y-2">
+              <label class="text-xs font-medium text-gray-400 uppercase tracking-wide">Alto</label>
+              <div class="relative">
+                <input type="number" 
+                  [ngModel]="parsePxValue(selectedComponent.style.height)"
+                  (ngModelChange)="Propiedades($event, 'height')"
+                  class="w-full bg-slate-800 border border-slate-600 rounded-lg px-3 py-2 text-white placeholder-gray-400 focus:border-purple-400 focus:outline-none transition-colors" />
+                <span class="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">px</span> </div>
             </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="space-y-4">
+      <div class="flex items-center gap-2 mb-4">
+        <div class="w-8 h-8 bg-purple-500/20 rounded-lg flex items-center justify-center">
+          <span class="text-lg">🎨</span>
+        </div>
+        <h3 class="text-lg font-semibold text-purple-300">Apariencia</h3>
+      </div>
+      
+      <div class="bg-white/5 backdrop-blur-sm rounded-xl p-4 border border-white/10 space-y-6">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4"> <div class="space-y-2">
+            <label class="text-xs font-medium text-gray-400 uppercase tracking-wide">Color de fondo</label>
+            <div class="flex items-center gap-3 bg-slate-800 rounded-lg px-3 py-2 border border-slate-600">
+              <input type="color" 
+                [ngModel]="selectedComponent.style.backgroundColor"
+                (ngModelChange)="Propiedades($event, 'backgroundColor')"
+                class="w-8 h-8 rounded-md cursor-pointer border-2 border-slate-600" />
+              <input type="text" 
+                [ngModel]="selectedComponent.style.backgroundColor"
+                (ngModelChange)="Propiedades($event, 'backgroundColor')"
+                class="flex-1 bg-transparent text-white font-mono text-sm focus:outline-none" />
+            </div>
+          </div>
+
+          <div class="space-y-2">
+            <label class="text-xs font-medium text-gray-400 uppercase tracking-wide">Color del texto</label>
+            <div class="flex items-center gap-3 bg-slate-800 rounded-lg px-3 py-2 border border-slate-600">
+              <input type="color" 
+                [ngModel]="selectedComponent.style.color || '#000000'"
+                (ngModelChange)="Propiedades($event, 'color')"
+                class="w-8 h-8 rounded-md cursor-pointer border-2 border-slate-600" />
+              <input type="text" 
+                [ngModel]="selectedComponent.style.color || '#000000'"
+                (ngModelChange)="Propiedades($event, 'color')"
+                class="flex-1 bg-transparent text-white font-mono text-sm focus:outline-none" />
+            </div>
+          </div>
         </div>
 
+        <div class="space-y-4">
+          <h4 class="text-sm font-medium text-gray-300 flex items-center gap-2">
+            <span class="w-2 h-2 bg-orange-400 rounded-full"></span>
+            Bordes
+          </h4>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4"> <div class="space-y-2">
+              <label class="text-xs font-medium text-gray-400 uppercase tracking-wide">Color del borde</label>
+              <div class="flex items-center gap-3 bg-slate-800 rounded-lg px-3 py-2 border border-slate-600">
+                <input type="color" 
+                  [ngModel]="getBorderProperty('color')"
+                  (ngModelChange)="setBorderProperty('color', $event)"
+                  class="w-8 h-8 rounded-md cursor-pointer border-2 border-slate-600" />
+                <input type="text" 
+                  [ngModel]="getBorderProperty('color')"
+                  (ngModelChange)="setBorderProperty('color', $event)"
+                  class="flex-1 bg-transparent text-white font-mono text-sm focus:outline-none" />
+              </div>
+            </div>
 
-        <label class="block mb-1">Esquinas redondeadas (px)</label>
-        <div class="flex items-center gap-2">
-            <input type="range" min="0" max="50" step="1"
+            <div class="space-y-2">
+              <label class="text-xs font-medium text-gray-400 uppercase tracking-wide">Grosor del borde</label>
+              <div class="relative">
+                <input type="number" min="0"
+                  [ngModel]="getBorderProperty('width')"
+                  (ngModelChange)="setBorderProperty('width', $event)"
+                  class="w-full bg-slate-800 border border-slate-600 rounded-lg px-3 py-2 text-white placeholder-gray-400 focus:border-purple-400 focus:outline-none transition-colors" />
+                <span class="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">px</span> </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="space-y-3">
+          <label class="text-xs font-medium text-gray-400 uppercase tracking-wide">Esquinas redondeadas</label>
+          <div class="bg-slate-800 rounded-lg p-3 border border-slate-600">
+            <div class="flex items-center gap-4">
+              <input type="range" min="0" max="50" step="1"
                 [ngModel]="parsePxValue(selectedComponent.style.borderRadius || '0')"
                 (ngModelChange)="Propiedades($event, 'borderRadius')"
-                class="w-full h-1 mb-6 bg-gray-200 rounded-lg appearance-none cursor-pointer range-sm dark:bg-gray-700" />
-            <span class="text-sm w-12 text-center">
+                class="flex-1 h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer slider" />
+              <div class="bg-slate-700 px-3 py-1 rounded-md text-sm font-mono min-w-[60px] text-center">
                 {{selectedComponent.style.borderRadius || '0px'}}
-            </span>
-        </div>
-    </div>
-
-    <div *ngIf="selectedComponent" class="space-y-2">
-        <label class="block mb-1 text-xs font-medium text-white">Texto del componente</label>
-        <input type="text" [(ngModel)]="selectedComponent.content" (ngModelChange)="onContentChange($event)"
-            class="w-full bg-gray-800 text-white border-none rounded p-2 text-sm" />
-    </div>
-    <!-- Tamaño de fuente -->
-    <!-- sidebar-der.component.html -->
-    <div class="space-y-2">
-        <p class="block font-sans text-base leading-relaxed text-inherit font-medium">
-            Texto
-        </p>
-
-        <!-- Color de texto (ya lo tienes) -->
-
-        <!-- Tamaño de fuente -->
-        <div class="mb-2">
-            <label class="block mb-1 text-xs font-medium text-white">Tamaño de texto (px)</label>
-            <div class="flex items-center gap-2 bg-gray-800 rounded px-2 py-1 text-white">
-                <input type="number" min="8" max="72" step="1"
-                    [ngModel]="parsePxValue(selectedComponent.style.fontSize || '16px')"
-                    (ngModelChange)="Propiedades($event, 'fontSize')"
-                    class="w-full bg-transparent font-mono border-none outline-none p-1" />
-                <span class="text-xs">px</span>
+              </div>
             </div>
+          </div>
         </div>
+      </div>
+    </section>
 
-        <!-- También puedes añadir un slider para mejor experiencia -->
-        <div class="mb-2">
-            <label class="block mb-1 text-xs font-medium text-white">Tamaño</label>
-            <div class="flex items-center gap-2">
+    <section class="space-y-4">
+      <div class="flex items-center gap-2 mb-4">
+        <div class="w-8 h-8 bg-emerald-500/20 rounded-lg flex items-center justify-center">
+          <span class="text-lg">📝</span>
+        </div>
+        <h3 class="text-lg font-semibold text-emerald-300">Contenido</h3>
+      </div>
+      
+      <div class="bg-white/5 backdrop-blur-sm rounded-xl p-4 border border-white/10 space-y-4">
+        <div class="space-y-2">
+          <label class="text-xs font-medium text-gray-400 uppercase tracking-wide">Texto del componente</label>
+          <textarea [(ngModel)]="selectedComponent.content" (ngModelChange)="onContentChange($event)"
+            rows="3"
+            class="w-full bg-slate-800 border border-slate-600 rounded-lg px-3 py-2 text-white placeholder-gray-400 focus:border-purple-400 focus:outline-none transition-colors resize-none"></textarea>
+        </div>
+      </div>
+    </section>
+
+    <section class="space-y-4">
+      <div class="flex items-center gap-2 mb-4">
+        <div class="w-8 h-8 bg-cyan-500/20 rounded-lg flex items-center justify-center">
+          <span class="text-lg">🔤</span>
+        </div>
+        <h3 class="text-lg font-semibold text-cyan-300">Tipografía</h3>
+      </div>
+      
+      <div class="bg-white/5 backdrop-blur-sm rounded-xl p-4 border border-white/10 space-y-6">
+        <div class="space-y-3">
+          <label class="text-xs font-medium text-gray-400 uppercase tracking-wide">Tamaño de texto</label>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4"> <div class="relative">
+              <input type="number" min="8" max="72" step="1"
+                [ngModel]="parsePxValue(selectedComponent.style.fontSize || '16px')"
+                (ngModelChange)="Propiedades($event, 'fontSize')"
+                class="w-full bg-slate-800 border border-slate-600 rounded-lg px-3 py-2 text-white placeholder-gray-400 focus:border-purple-400 focus:outline-none transition-colors" />
+              <span class="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">px</span> </div>
+            <div class="bg-slate-800 rounded-lg p-2 border border-slate-600">
+              <div class="flex items-center gap-3">
                 <input type="range" min="8" max="72" step="1"
-                    [ngModel]="parsePxValue(selectedComponent.style.fontSize || '16px')"
-                    (ngModelChange)="Propiedades($event, 'fontSize')"
-                    class="w-full h-1 mb-6 bg-gray-200 rounded-lg appearance-none cursor-pointer range-sm dark:bg-gray-700" />
-                <span class="text-sm w-12 text-center">
-                    {{selectedComponent.style.fontSize || '16px'}}
+                  [ngModel]="parsePxValue(selectedComponent.style.fontSize || '16px')"
+                  (ngModelChange)="Propiedades($event, 'fontSize')"
+                  class="flex-1 h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer slider" />
+                <span class="text-xs text-gray-400 min-w-[35px] text-right"> {{selectedComponent.style.fontSize || '16px'}}
                 </span>
+              </div>
             </div>
+          </div>
         </div>
-        <!-- Selector de fuente -->
-        <select [ngModel]="selectedComponent.style.fontFamily || 'Arial, sans-serif'"
+
+        <div class="space-y-2">
+          <label class="text-xs font-medium text-gray-400 uppercase tracking-wide">Fuente</label>
+          <select [ngModel]="selectedComponent.style.fontFamily || 'Arial, sans-serif'"
             (ngModelChange)="Propiedades($event, 'fontFamily')"
-            class="w-full bg-gray-800 text-white border-none rounded p-2 text-sm">
+            class="w-full bg-slate-800 border border-slate-600 rounded-lg px-3 py-2 text-white focus:border-purple-400 focus:outline-none transition-colors">
             <option *ngFor="let font of webSafeFonts" [ngValue]="font.value" [style.fontFamily]="font.value">
-                {{font.name}}
+              {{font.name}}
             </option>
-        </select>
-        <!-- Contenido del texto (ya lo tienes) -->
-        <div class="mb-2">
-            <label class="block mb-1 text-xs font-medium text-white">Grosor del texto</label>
-            <select [ngModel]="selectedComponent.style.fontWeight || 'bold'"
-                (ngModelChange)="Propiedades($event, 'fontWeight')"
-                class="w-full bg-gray-800 text-white border-none rounded p-2 text-sm">
-                <option value="normal">Normal</option>
-                <option value="bold">Negrita</option>
-                <option value="bolder">Extra Negrita</option>
-            </select>
+          </select>
         </div>
-    </div>
-    <!-- Altura de línea -->
-    <div class="mb-2">
-        <label class="block mb-1 text-xs font-medium text-white">Altura de línea (px)</label>
-        <div class="flex items-center gap-2 bg-gray-800 rounded px-2 py-1 text-white">
-            <input type="number" min="1" [ngModel]="parsePxValue(selectedComponent.style.lineHeight || 'normal')"
+
+        <div class="space-y-2">
+          <label class="text-xs font-medium text-gray-400 uppercase tracking-wide">Grosor del texto</label>
+          <select [ngModel]="selectedComponent.style.fontWeight || 'bold'"
+            (ngModelChange)="Propiedades($event, 'fontWeight')"
+            class="w-full bg-slate-800 border border-slate-600 rounded-lg px-3 py-2 text-white focus:border-purple-400 focus:outline-none transition-colors">
+            <option value="normal">Normal</option>
+            <option value="bold">Negrita</option>
+            <option value="bolder">Extra Negrita</option>
+          </select>
+        </div>
+
+        <div class="space-y-3">
+          <label class="text-xs font-medium text-gray-400 uppercase tracking-wide">Altura de línea</label>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4"> <div class="relative">
+              <input type="number" min="1"
+                [ngModel]="parsePxValue(selectedComponent.style.lineHeight || 'normal')"
                 (ngModelChange)="Propiedades($event, 'lineHeight')"
-                class="w-full bg-transparent font-mono border-none outline-none p-1" />
-            <span class="text-xs">px</span>
-        </div>
-        <!-- Slider opcional para mejor control -->
-        <div class="flex items-center gap-2 mt-1">
-            <input type="range" min="1" max="100" [ngModel]="parsePxValue(selectedComponent.style.lineHeight || '20')"
+                class="w-full bg-slate-800 border border-slate-600 rounded-lg px-3 py-2 text-white placeholder-gray-400 focus:border-purple-400 focus:outline-none transition-colors" />
+              <span class="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">px</span> </div>
+            <div class="bg-slate-800 rounded-lg p-2 border border-slate-600">
+              <input type="range" min="1" max="100"
+                [ngModel]="parsePxValue(selectedComponent.style.lineHeight || '20')"
                 (ngModelChange)="Propiedades($event, 'lineHeight')"
-                class="w-full h-1 bg-gray-200 rounded-lg appearance-none cursor-pointer" />
-        </div>
-    </div>
-    <!-- Alineación de texto -->
-    <div class="mb-2">
-        <label class="block mb-1 text-xs font-medium text-white">Alineación de texto</label>
-        <select [ngModel]="selectedComponent.style.textAlign || 'center'"
-            (ngModelChange)="Propiedades($event, 'textAlign')"
-            class="w-full bg-gray-800 text-white border-none rounded p-2 text-sm">
-            <option value="left">Izquierda</option>
-            <option value="center">Centro</option>
-            <option value="right">Derecha</option>
-        </select>
-    </div>
-    <!-- Sección específica para botones -->
-    <div *ngIf="selectedComponent?.type === 'button'" class="space-y-4 mt-4 border-t pt-4">
-        <h3 class="text-sm font-semibold text-white">Propiedades de Botón</h3>
-
-        <!-- Cursor -->
-        <div class="mb-2">
-            <label class="block mb-1 text-xs font-medium text-white">Comportamiento</label>
-            <select [ngModel]="selectedComponent.style.cursor || 'pointer'"
-                (ngModelChange)="Propiedades($event, 'cursor')"
-                class="w-full bg-gray-800 text-white border-none rounded p-2 text-sm">
-                <option value="pointer">Cursor Pointer</option>
-                <option value="default">Cursor Default</option>
-            </select>
+                class="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer slider" />
+            </div>
+          </div>
         </div>
 
-        <!-- Alineación de texto -->
-        <div class="mb-2">
-            <label class="block mb-1 text-xs font-medium text-white">Alineación de texto</label>
-            <select [ngModel]="selectedComponent.style.textAlign || 'center'"
-                (ngModelChange)="Propiedades($event, 'textAlign')"
-                class="w-full bg-gray-800 text-white border-none rounded p-2 text-sm">
-                <option value="left">Izquierda</option>
-                <option value="center">Centro</option>
-                <option value="right">Derecha</option>
-            </select>
+        <div class="space-y-2">
+          <label class="text-xs font-medium text-gray-400 uppercase tracking-wide">Alineación de texto</label>
+          <div class="grid grid-cols-3 gap-2">
+            <button type="button"
+              [class]="selectedComponent.style.textAlign === 'left' ? 'bg-purple-600 text-white' : 'bg-slate-700 text-gray-300 hover:bg-slate-600'"
+              (click)="Propiedades('left', 'textAlign')"
+              class="px-3 py-2 rounded-lg text-sm font-medium transition-colors">
+              Izquierda
+            </button>
+            <button type="button"
+              [class]="selectedComponent.style.textAlign === 'center' || !selectedComponent.style.textAlign ? 'bg-purple-600 text-white' : 'bg-slate-700 text-gray-300 hover:bg-slate-600'"
+              (click)="Propiedades('center', 'textAlign')"
+              class="px-3 py-2 rounded-lg text-sm font-medium transition-colors">
+              Centro
+            </button>
+            <button type="button"
+              [class]="selectedComponent.style.textAlign === 'right' ? 'bg-purple-600 text-white' : 'bg-slate-700 text-gray-300 hover:bg-slate-600'"
+              (click)="Propiedades('right', 'textAlign')"
+              class="px-3 py-2 rounded-lg text-sm font-medium transition-colors">
+              Derecha
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section *ngIf="selectedComponent?.type === 'button'" class="space-y-4">
+      <div class="flex items-center gap-2 mb-4">
+        <div class="w-8 h-8 bg-indigo-500/20 rounded-lg flex items-center justify-center">
+          <span class="text-lg">🔘</span>
+        </div>
+        <h3 class="text-lg font-semibold text-indigo-300">Propiedades de Botón</h3>
+      </div>
+      
+      <div class="bg-white/5 backdrop-blur-sm rounded-xl p-4 border border-white/10 space-y-4">
+        <div class="space-y-2">
+          <label class="text-xs font-medium text-gray-400 uppercase tracking-wide">Comportamiento</label>
+          <select [ngModel]="selectedComponent.style.cursor || 'pointer'"
+            (ngModelChange)="Propiedades($event, 'cursor')"
+            class="w-full bg-slate-800 border border-slate-600 rounded-lg px-3 py-2 text-white focus:border-purple-400 focus:outline-none transition-colors">
+            <option value="pointer">Cursor Pointer</option>
+            <option value="default">Cursor Default</option>
+          </select>
         </div>
 
-        <!-- Grosor del texto -->
+        <div class="space-y-2">
+          <label class="text-xs font-medium text-gray-400 uppercase tracking-wide">Sombra</label>
+          <input type="text" 
+            [ngModel]="selectedComponent.style.boxShadow || '0 2px 4px rgba(0,0,0,0.1)'"
+            (ngModelChange)="Propiedades($event, 'boxShadow')" 
+            placeholder="Ej: 0 2px 4px rgba(0,0,0,0.1)"
+            class="w-full bg-slate-800 border border-slate-600 rounded-lg px-3 py-2 text-white placeholder-gray-400 focus:border-purple-400 focus:outline-none transition-colors" />
+        </div>
+      </div>
+    </section>
 
-
-        <!-- Sombra -->
-        <div class="mb-2">
-            <label class="block mb-1 text-xs font-medium text-white">Sombra</label>
-            <input type="text" [ngModel]="selectedComponent.style.boxShadow || '0 2px 4px rgba(0,0,0,0.1)'"
-                (ngModelChange)="Propiedades($event, 'boxShadow')" placeholder="Ej: 0 2px 4px rgba(0,0,0,0.1)"
-                class="w-full bg-gray-800 text-white border-none rounded p-2 text-sm" />
+    <section *ngIf="selectedComponent?.type === 'select' && selectedComponent.children" class="space-y-4">
+      <div class="flex items-center gap-2 mb-4">
+        <div class="w-8 h-8 bg-orange-500/20 rounded-lg flex items-center justify-center">
+          <span class="text-lg">🎚️</span>
+        </div>
+        <h3 class="text-lg font-semibold text-orange-300">Opciones del ComboBox</h3>
+      </div>
+      
+      <div class="bg-white/5 backdrop-blur-sm rounded-xl p-4 border border-white/10 space-y-4">
+        <div class="space-y-3">
+          <div *ngFor="let option of selectedComponent.children; let i = index" 
+            class="flex items-center gap-3 p-3 bg-slate-800 rounded-lg border border-slate-600">
+            <span class="text-xs text-gray-400 font-mono w-6 text-center">{{i + 1}}</span> <input type="text" [(ngModel)]="selectedComponent.children[i].content"
+              (ngModelChange)="onOptionContentChange(i, $event)"
+              class="flex-1 bg-transparent text-white focus:outline-none" 
+              placeholder="Texto de la opción" />
+            <button (click)="removeOption(i)" 
+              class="w-8 h-8 flex items-center justify-center text-red-400 hover:text-red-300 hover:bg-red-500/10 rounded-md transition-colors">
+              <span class="text-lg">&times;</span>
+            </button>
+          </div>
         </div>
 
-    </div>
-    <div *ngIf="selectedComponent?.type === 'select' && selectedComponent.children"
-        class="space-y-4 mt-4 border-t pt-4">
-        <h3 class="text-sm font-semibold text-white">Opciones del ComboBox</h3>
-
-        <div *ngFor="let option of selectedComponent.children; let i = index" class="flex items-center gap-2">
-            <input type="text" [(ngModel)]="selectedComponent.children[i].content"
-                (ngModelChange)="onOptionContentChange(i, $event)"
-                class="flex-1 bg-gray-800 text-white border-none rounded p-2 text-sm" />
-            <button (click)="removeOption(i)" class="text-red-400 hover:text-red-600 text-lg">&times;</button>
-        </div>
-
-        <button (click)="addOption()" class="bg-green-600 hover:bg-green-700 text-white text-sm px-3 py-1 rounded">
-            + Agregar Opción
+        <button (click)="addOption()" 
+          class="w-full flex items-center justify-center gap-2 py-3 px-4 bg-green-600 hover:bg-green-700 text-white rounded-lg font-medium transition-colors">
+          <span class="text-lg">+</span>
+          Agregar Opción
         </button>
-    </div>
-    <!-- Sección específica para tablas -->
-    <div *ngIf="selectedComponent?.type === 'table'" class="space-y-4 mt-4 border-t pt-4">
-        <h3 class="text-sm font-semibold text-white">Opciones de Tabla</h3>
+      </div>
+    </section>
 
-        <div class="grid grid-cols-2 gap-2">
-            <!-- Agregar fila -->
-            <button (click)="addTableRow()" class="bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded">
-                ➕ Agregar Fila
-            </button>
-
-            <!-- Eliminar fila -->
-            <button (click)="removeTableRow()" class="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded">
-                🗑️ Eliminar Fila
-            </button>
-
-            <!-- Agregar columna -->
-            <button (click)="addTableColumn()" class="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded">
-                ➕ Agregar Columna
-            </button>
-
-            <!-- Eliminar columna -->
-            <button (click)="removeTableColumn()"
-                class="bg-yellow-600 hover:bg-yellow-700 text-white px-3 py-1 rounded">
-                🗑️ Eliminar Columna
-            </button>
+    <section *ngIf="selectedComponent?.type === 'table'" class="space-y-4">
+      <div class="flex items-center gap-2 mb-4">
+        <div class="w-8 h-8 bg-pink-500/20 rounded-lg flex items-center justify-center">
+          <span class="text-lg">📊</span>
         </div>
+        <h3 class="text-lg font-semibold text-pink-300">Opciones de Tabla</h3>
+      </div>
+      
+      <div class="bg-white/5 backdrop-blur-sm rounded-xl p-4 border border-white/10">
+        <div class="grid grid-cols-2 gap-3">
+          <button (click)="addTableRow()" 
+            class="flex items-center justify-center gap-2 py-3 px-3 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg font-medium transition-colors">
+            <span>➕</span>
+            <span class="text-sm">Fila</span>
+          </button>
+
+          <button (click)="removeTableRow()" 
+            class="flex items-center justify-center gap-2 py-3 px-3 bg-red-600 hover:bg-red-700 text-white rounded-lg font-medium transition-colors">
+            <span>🗑️</span>
+            <span class="text-sm">Fila</span>
+          </button>
+
+          <button (click)="addTableColumn()" 
+            class="flex items-center justify-center gap-2 py-3 px-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-colors">
+            <span>➕</span>
+            <span class="text-sm">Columna</span>
+          </button>
+
+          <button (click)="removeTableColumn()"
+            class="flex items-center justify-center gap-2 py-3 px-3 bg-yellow-600 hover:bg-yellow-700 text-white rounded-lg font-medium transition-colors">
+            <span>🗑️</span>
+            <span class="text-sm">Columna</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <section *ngIf="selectedComponent?.type === 'td'" class="space-y-4">
+      <div class="flex items-center gap-2 mb-4">
+        <div class="w-8 h-8 bg-teal-500/20 rounded-lg flex items-center justify-center">
+          <span class="text-lg">📋</span>
+        </div>
+        <h3 class="text-lg font-semibold text-teal-300">Celda de Tabla</h3>
+      </div>
+      
+      <div class="bg-white/5 backdrop-blur-sm rounded-xl p-4 border border-white/10">
+        <div class="space-y-2">
+          <label class="text-xs font-medium text-gray-400 uppercase tracking-wide">Contenido de la celda</label>
+          <textarea [(ngModel)]="selectedComponent.content" (ngModelChange)="onContentChange($event)"
+            rows="3"
+            class="w-full bg-slate-800 border border-slate-600 rounded-lg px-3 py-2 text-white placeholder-gray-400 focus:border-purple-400 focus:outline-none transition-colors resize-none"></textarea>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <div *ngIf="!selectedComponent" class="flex flex-col items-center justify-center h-full text-gray-400 p-6"> <div class="w-16 h-16 bg-gray-700/50 rounded-full flex items-center justify-center mb-4">
+      <span class="text-2xl">🎯</span>
     </div>
-
-    <div *ngIf="selectedComponent?.type === 'td'" class="space-y-4 mt-4 border-t pt-4">
-        <h3 class="text-sm font-semibold text-white">Celda de tabla</h3>
-
-        <label class="block mb-1 text-xs font-medium text-white">Contenido</label>
-        <input type="text" [(ngModel)]="selectedComponent.content" (ngModelChange)="onContentChange($event)"
-            class="w-full bg-gray-800 text-white border-none rounded p-2 text-sm" />
-
-        <!-- Estilos adicionales como alineación, fondo, borde -->
-    </div>
-
-
-
+    <p class="text-lg font-medium mb-2 text-center">Ningún componente seleccionado</p> <p class="text-sm text-center max-w-xs">Selecciona un componente en el canvas para ver y editar sus propiedades</p>
+  </div>
 </div>
+
+<style>
+/* Custom scrollbar */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(139, 92, 246, 0.6);
+  border-radius: 3px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(139, 92, 246, 0.8);
+}
+
+/* Custom slider styles */
+.slider::-webkit-slider-thumb {
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #8b5cf6;
+  cursor: pointer;
+  border: 2px solid #1e293b;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  margin-top: -8px; /* Adjust thumb position vertically */
+}
+
+.slider::-webkit-slider-runnable-track {
+  height: 2px; /* Make track thinner */
+  background: #4a5568; /* Darker track for better contrast */
+  border-radius: 1px;
+}
+
+.slider::-webkit-slider-thumb:hover {
+  background: #a78bfa;
+  transform: scale(1.1);
+}
+
+.slider::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #8b5cf6;
+  cursor: pointer;
+  border: 2px solid #1e293b;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.slider::-moz-range-track {
+  height: 2px; /* Make track thinner */
+  background: #4a5568; /* Darker track for better contrast */
+  border-radius: 1px;
+}
+
+/* Smooth transitions */
+input, select, textarea, button {
+  transition: all 0.2s ease-in-out;
+}
+
+/* Focus states */
+input:focus, select:focus, textarea:focus {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.15);
+}
+
+/* Button hover effects */
+button:hover {
+  transform: translateY(-1px);
+}
+
+button:active {
+  transform: translateY(0);
+}
+</style>

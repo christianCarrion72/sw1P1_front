@@ -1,167 +1,342 @@
-<aside class="space-y-4 px-6 py-4">
-
-  <!-- Header y botón -->
-  <div class="border-b border-white/20 pb-4">
-    <div class="flex flex-col items-start">
-      <h1 class="flex items-center gap-2 text-white font-semibold text-base">
-        <button type="button" (click)="showParticipants = !showParticipants"
-          class="inline-flex items-center justify-center w-9 h-9 text-sm font-medium text-white bg-blue-700 rounded-lg hover:bg-blue-800">
-          <svg class="w-[20px] h-[20px] text-gray-800 dark:text-white" aria-hidden="true"
-            xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
-            <path fill-rule="evenodd"
-              d="M12 6a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7Zm-1.5 8a4 4 0 0 0-4 4 2 2 0 0 0 2 2h7a2 2 0 0 0 2-2 4 4 0 0 0-4-4h-3Zm6.82-3.096a5.51 5.51 0 0 0-2.797-6.293 3.5 3.5 0 1 1 2.796 6.292ZM19.5 18h.5a2 2 0 0 0 2-2 4 4 0 0 0-4-4h-1.1a5.503 5.503 0 0 1-.471.762A5.998 5.998 0 0 1 19.5 18ZM4 7.5a3.5 3.5 0 0 1 5.477-2.889 5.5 5.5 0 0 0-2.796 6.293A3.501 3.501 0 0 1 4 7.5ZM7.1 12H6a4 4 0 0 0-4 4 2 2 0 0 0 2 2h.5a5.998 5.998 0 0 1 3.071-5.238A5.505 5.505 0 0 1 7.1 12Z"
-              clip-rule="evenodd" />
-          </svg>
-
-        </button>
-        <span class="text-sm sm:text-base">Sala de trabajo:</span>
-      </h1>
-      <p class="pl-11 text-white font-semibold">{{ roomName }}</p>
+<aside class="flex flex-col h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-white shadow-2xl relative overflow-hidden">
+  <!-- Background Pattern -->
+  <div class="absolute inset-0 opacity-5">
+    <div class="absolute inset-0 bg-[radial-gradient(circle_at_50%_120%,rgba(120,119,198,0.3),rgba(255,255,255,0))]"></div>
+    <div class="absolute top-0 left-0 w-full h-full">
+      <svg class="w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
+        <defs>
+          <pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse">
+            <path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/>
+          </pattern>
+        </defs>
+        <rect width="100" height="100" fill="url(#grid)" />
+      </svg>
     </div>
   </div>
 
-  <!-- Dropdown CRECIENTE -->
-  <div *ngIf="showParticipants"
-    class="w-full text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow-sm dark:bg-gray-700 dark:divide-gray-600 transition-all duration-300 overflow-hidden">
-    <ul class="py-2 font-medium max-h-60 overflow-auto" role="none">
-      <li *ngFor="let user of usersInRoom">
-        <div
-          class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white">
-          <span class="w-3 h-3 rounded-full inline-block mr-2" [ngClass]="{
-                  'bg-green-500': user.isConnected,
-                  'bg-red-500': !user.isConnected
-                }"></span>
-          {{ user.name }}
+  <!-- Header Section -->
+  <header class="flex-shrink-0 p-6 border-b border-white/10 relative z-10">
+    <div class="flex items-center gap-3 mb-3">
+      <div class="relative">
+        <button type="button" (click)="showParticipants = !showParticipants"
+          class="group relative overflow-hidden w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl transition-all duration-300 hover:scale-110 hover:shadow-lg hover:shadow-purple-500/25 focus:outline-none focus:ring-2 focus:ring-purple-400">
+          <div class="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+          <svg class="w-6 h-6 text-white relative z-10 m-auto mt-3" fill="currentColor" viewBox="0 0 24 24">
+            <path fill-rule="evenodd" d="M12 6a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7Zm-1.5 8a4 4 0 0 0-4 4 2 2 0 0 0 2 2h7a2 2 0 0 0 2-2 4 4 0 0 0-4-4h-3Zm6.82-3.096a5.51 5.51 0 0 0-2.797-6.293 3.5 3.5 0 1 1 2.796 6.292ZM19.5 18h.5a2 2 0 0 0 2-2 4 4 0 0 0-4-4h-1.1a5.503 5.503 0 0 1-.471.762A5.998 5.998 0 0 1 19.5 18ZM4 7.5a3.5 3.5 0 0 1 5.477-2.889 5.5 5.5 0 0 0-2.796 6.293A3.501 3.501 0 0 1 4 7.5ZM7.1 12H6a4 4 0 0 0-4 4 2 2 0 0 0 2 2h.5a5.998 5.998 0 0 1 3.071-5.238A5.505 5.505 0 0 1 7.1 12Z" clip-rule="evenodd" />
+          </svg>
+        </button>
+      </div>
+      <div>
+        <h1 class="text-xl font-bold bg-gradient-to-r from-white to-purple-200 bg-clip-text text-transparent">
+          Sala de trabajo
+        </h1>
+        <p class="text-sm text-purple-300 font-medium">{{ roomName }}</p>
+      </div>
+    </div>
+
+    <!-- Participants Dropdown -->
+    <div *ngIf="showParticipants"
+      class="mt-4 bg-black/40 backdrop-blur-md rounded-xl border border-white/10 shadow-2xl transition-all duration-300 ease-out transform"
+      [ngClass]="{'scale-y-0 opacity-0 -translate-y-4': !showParticipants, 'scale-y-100 opacity-100 translate-y-0': showParticipants}">
+      <div class="p-2 max-h-48 overflow-y-auto custom-scrollbar">
+        <div *ngFor="let user of usersInRoom" 
+          class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-white/5 transition-colors duration-200">
+          <div class="relative">
+            <span class="w-2.5 h-2.5 rounded-full inline-block" 
+              [ngClass]="{'bg-emerald-400 shadow-emerald-400/50': user.isConnected, 'bg-red-400 shadow-red-400/50': !user.isConnected}"
+              [class.animate-pulse]="user.isConnected"></span>
+            <span *ngIf="user.isConnected" class="absolute inset-0 w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping"></span>
+          </div>
+          <span class="text-sm font-medium text-gray-200">{{ user.name }}</span>
         </div>
-      </li>
-    </ul>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content Area -->
+  <div class="flex-1 flex flex-col min-h-0 p-6 space-y-6 relative z-10">
+    
+    <!-- Pages Management -->
+    <section class="flex-shrink-0">
+      <h2 class="text-lg font-bold text-white mb-4 flex items-center gap-2">
+        <div class="w-1 h-6 bg-gradient-to-b from-purple-400 to-blue-400 rounded-full"></div>
+        Gestión de Páginas
+      </h2>
+      
+      <div class="space-y-3">
+        <!-- Pages Dropdown -->
+        <div class="relative">
+          <button type="button"
+            class="w-full flex items-center justify-between p-4 bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl hover:bg-white/10 transition-all duration-300 group"
+            (click)="dropdownOpen = !dropdownOpen">
+            <span class="font-semibold text-white">Páginas</span>
+            <svg class="w-5 h-5 text-purple-300 transform transition-transform duration-300 group-hover:text-white" 
+              [class.rotate-180]="dropdownOpen" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 9-7 7-7-7" />
+            </svg>
+          </button>
+
+          <div class="absolute top-full left-0 right-0 mt-2 z-20" [class.hidden]="!dropdownOpen">
+            <div class="bg-black/60 backdrop-blur-md rounded-xl border border-white/10 shadow-2xl overflow-hidden"
+              [ngClass]="{'animate-slide-down': dropdownOpen, 'animate-slide-up': !dropdownOpen}">
+              <div *ngFor="let page of pages" 
+                (click)="onSelectPage(page.id)"
+                class="px-4 py-3 hover:bg-white/10 cursor-pointer transition-colors duration-200 border-b border-white/5 last:border-b-0"
+                [ngClass]="{ 'bg-gradient-to-r from-purple-600/50 to-blue-600/50 text-white font-semibold': page.id === selectedPageId }">
+                <span class="text-sm">{{ page.name }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- New Page Button -->
+        <button (click)="onAddPage()"
+          class="w-full flex items-center justify-center gap-2 py-3 px-4 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 rounded-xl font-semibold transition-all duration-300 transform hover:scale-[1.02] active:scale-[0.98] shadow-lg hover:shadow-purple-500/25">
+          <span class="text-lg">➕</span>
+          <span>Nueva Página</span>
+        </button>
+
+        <!-- Preview Toggle -->
+        <button (click)="togglePreview.emit()"
+          class="w-full flex items-center justify-center gap-2 py-3 px-4 bg-gradient-to-r from-teal-500 to-emerald-500 hover:from-teal-600 hover:to-emerald-600 rounded-xl font-semibold transition-all duration-300 transform hover:scale-[1.02] active:scale-[0.98] shadow-lg hover:shadow-teal-500/25">
+          <span class="text-lg">🖥️</span>
+          <span>{{ isPreview ? 'Salir de Previsualización' : 'Modo Previsualización' }}</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- Components Section -->
+    <section class="flex-1 min-h-0">
+      <h2 class="text-lg font-bold text-white mb-4 flex items-center gap-2">
+        <div class="w-1 h-6 bg-gradient-to-b from-emerald-400 to-teal-400 rounded-full"></div>
+        Componentes
+      </h2>
+      
+      <div class="h-full overflow-y-auto custom-scrollbar pr-2">
+        <div class="grid grid-cols-1 gap-3">
+          <!-- Component Buttons in Cards -->
+          <div class="space-y-2">
+            <button class="component-card" (click)="addComponent()">
+              <div class="flex items-center gap-3">
+                <div class="w-10 h-10 bg-blue-500/20 rounded-lg flex items-center justify-center">
+                  <span class="text-xl">📦</span>
+                </div>
+                <div class="text-left">
+                  <div class="font-semibold text-white">Contenedor</div>
+                  <div class="text-xs text-gray-400">Div básico</div>
+                </div>
+              </div>
+            </button>
+
+            <button class="component-card" (click)="addLabelComponent()">
+              <div class="flex items-center gap-3">
+                <div class="w-10 h-10 bg-purple-500/20 rounded-lg flex items-center justify-center">
+                  <span class="text-xl">🏷️</span>
+                </div>
+                <div class="text-left">
+                  <div class="font-semibold text-white">Etiqueta</div>
+                  <div class="text-xs text-gray-400">Texto label</div>
+                </div>
+              </div>
+            </button>
+
+            <button class="component-card" (click)="addButtonComponent()">
+              <div class="flex items-center gap-3">
+                <div class="w-10 h-10 bg-emerald-500/20 rounded-lg flex items-center justify-center">
+                  <span class="text-xl">🔘</span>
+                </div>
+                <div class="text-left">
+                  <div class="font-semibold text-white">Botón</div>
+                  <div class="text-xs text-gray-400">Elemento clickeable</div>
+                </div>
+              </div>
+            </button>
+
+            <button class="component-card" (click)="addSelectComponent()">
+              <div class="flex items-center gap-3">
+                <div class="w-10 h-10 bg-orange-500/20 rounded-lg flex items-center justify-center">
+                  <span class="text-xl">🎚️</span>
+                </div>
+                <div class="text-left">
+                  <div class="font-semibold text-white">ComboBox</div>
+                  <div class="text-xs text-gray-400">Lista desplegable</div>
+                </div>
+              </div>
+            </button>
+
+            <button class="component-card" (click)="addTableComponent()">
+              <div class="flex items-center gap-3">
+                <div class="w-10 h-10 bg-pink-500/20 rounded-lg flex items-center justify-center">
+                  <span class="text-xl">📊</span>
+                </div>
+                <div class="text-left">
+                  <div class="font-semibold text-white">Tabla</div>
+                  <div class="text-xs text-gray-400">Datos tabulares</div>
+                </div>
+              </div>
+            </button>
+
+            <button class="component-card" (click)="addCheckboxComponent()">
+              <div class="flex items-center gap-3">
+                <div class="w-10 h-10 bg-green-500/20 rounded-lg flex items-center justify-center">
+                  <span class="text-xl">✅</span>
+                </div>
+                <div class="text-left">
+                  <div class="font-semibold text-white">Checkbox</div>
+                  <div class="text-xs text-gray-400">Selección múltiple</div>
+                </div>
+              </div>
+            </button>
+
+            <button class="component-card" (click)="addRadioComponent()">
+              <div class="flex items-center gap-3">
+                <div class="w-10 h-10 bg-cyan-500/20 rounded-lg flex items-center justify-center">
+                  <span class="text-xl">🔵</span>
+                </div>
+                <div class="text-left">
+                  <div class="font-semibold text-white">Radio</div>
+                  <div class="text-xs text-gray-400">Selección única</div>
+                </div>
+              </div>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Code Export -->
+    <section class="flex-shrink-0">
+      <button (click)="openHtmlModal()"
+        class="w-full flex items-center justify-center gap-2 py-4 px-4 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 rounded-xl font-semibold transition-all duration-300 transform hover:scale-[1.02] active:scale-[0.98] shadow-lg hover:shadow-indigo-500/25">
+        <span class="text-lg">📄</span>
+        <span>Ver Código HTML/CSS</span>
+      </button>
+    </section>
   </div>
 
-  <button (click)="onAddPage()"
-    class="w-full mt-4 py-2 px-4 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm font-semibold">
-    ➕ Nueva Página
-  </button>
-  <!-- Botón desplegable de páginas -->
-  <div class="w-full">
-    <button type="button"
-      class="flex items-center w-full p-2 text-base text-white transition duration-75 rounded-lg group hover:bg-gray-400 "
-      (click)="dropdownOpen = !dropdownOpen">
-
-      <span class="flex-1 ms-3 text-left rtl:text-right whitespace-nowrap">Páginas</span>
-      <svg class="w-3 h-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4" />
-      </svg>
-    </button>
-
-    <!-- Lista desplegable de páginas -->
-    <ul class="py-2 space-y-2" [class.hidden]="!dropdownOpen">
-      <li *ngFor="let page of pages">
-        <a (click)="onSelectPage(page.id)"
-          class="flex items-center w-full p-2 text-white transition duration-75 rounded-lg pl-11 group hover:bg-gray-400 "
-          [ngClass]="{ ' text-white': page.id === selectedPageId }">
-          {{ page.name }}
-        </a>
-      </li>
-    </ul>
-  </div>
-
-  <!-- Menú contextual de página (para eliminar) -->
+  <!-- Context Menu -->
   <div *ngIf="pageContextMenu.visible" [style.left.px]="pageContextMenu.x" [style.top.px]="pageContextMenu.y"
-    class="fixed bg-white border rounded shadow z-[1000]">
+    class="fixed bg-black/80 backdrop-blur-md border border-red-500/50 rounded-lg shadow-2xl z-[1000] overflow-hidden animate-fade-in">
     <button (click)="deletePage(pageContextMenu.targetPageId)"
-      class="block px-4 py-2 hover:bg-gray-100 w-full text-left">
-      🗑️ Eliminar Página
+      class="flex items-center gap-2 px-4 py-3 text-red-400 hover:bg-red-500/20 hover:text-red-300 w-full text-left transition-colors duration-200">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+      </svg>
+      <span class="text-sm">Eliminar Página</span>
     </button>
   </div>
 
+  <!-- Modal -->
+  <div *ngIf="isModalOpen" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex justify-center items-center p-4 animate-fade-in">
+    <div class="bg-gradient-to-br from-slate-900 to-purple-900 text-white rounded-2xl shadow-2xl p-8 w-full max-w-6xl max-h-[90%] overflow-hidden relative border border-purple-500/30 transform animate-zoom-in">
+      <button class="absolute top-6 right-6 w-8 h-8 flex items-center justify-center text-red-400 hover:text-red-300 hover:bg-red-500/20 rounded-full transition-all duration-200" 
+        (click)="isModalOpen = false">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+      </button>
 
-
-
-  <!-- Page context menu -->
-  <!-- <div *ngIf="pageContextMenu.visible" [style.left.px]="pageContextMenu.x" [style.top.px]="pageContextMenu.y"
-    class="fixed bg-white border rounded shadow z-[1000]">
-    <button (click)="deletePage(pageContextMenu.targetPageId)"
-      class="block px-4 py-2 hover:bg-gray-100 w-full text-left">
-      🗑️ Eliminar Página
-    </button>
-  </div> -->
-
-  <!-- Add new page button -->
-
-  <!-- Botón de previsualización -->
-  <button (click)="togglePreview.emit()"
-    class="w-full mt-4 py-2 px-4 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-sm font-semibold">
-    🖥️ {{ isPreview ? 'Salir Previsualizar' : 'Modo Previsualizar' }}
-  </button>
-
-
-  <!-- Resto de contenido -->
-  <h2 class="text-lg font-semibold text-white">Componentes</h2>
-
-  <button class="w-full bg-gray-600 text-white py-2 rounded hover:bg-gray-700" (click)="addComponent()">
-    Agregar Caja DIV
-  </button>
-  <button class="w-full bg-gray-600 text-white py-2 rounded hover:bg-gray-700 mt-2" (click)="addLabelComponent()">
-    Agregar Label
-  </button>
-  <button class="w-full bg-gray-600 text-white py-2 rounded hover:bg-gray-700 mt-2" (click)="addButtonComponent()">
-    Agregar button
-  </button>
-  <button class="w-full bg-gray-600 text-white py-2 rounded hover:bg-gray-700 mt-2" (click)="addSelectComponent()">
-    Agregar ComboBox
-  </button>
-  <button class="w-full bg-gray-600 text-white py-2 rounded hover:bg-gray-700 mt-2" (click)="addTableComponent()">
-    Agregar Tabla
-  </button>
-  <button class="w-full bg-gray-600 text-white py-2 rounded hover:bg-gray-700 mt-2" (click)="addCheckboxComponent()">
-    Agregar Checkbox
-  </button>
-  <button class="w-full bg-gray-600 text-white py-2 rounded hover:bg-gray-700 mt-2" (click)="addRadioComponent()">
-    Agregar Radio Button
-  </button>
-
-  <!-- <div>
-    <h3 class="text-sm font-semibold mb-2 text-white">JSON del Canvas</h3>
-    <pre class="text-xs bg-gray-100 p-2 rounded h-80  overflow-auto whitespace-pre-wrap">
-{{ components | json }}
-    </pre>
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 h-full">
+        <div class="flex flex-col">
+          <h2 class="text-2xl font-bold mb-4 text-emerald-400 flex items-center gap-2">
+            <span class="text-lg">📝</span> HTML Generado
+          </h2>
+          <div class="flex-1 bg-black/40 rounded-xl border border-emerald-500/30 overflow-hidden">
+            <pre class="text-sm p-6 overflow-auto h-full whitespace-pre-wrap text-emerald-300 font-mono">{{ exportHtml().html }}</pre>
+          </div>
+        </div>
+        <div class="flex flex-col">
+          <h2 class="text-2xl font-bold mb-4 text-blue-400 flex items-center gap-2">
+            <span class="text-lg">🎨</span> CSS Generado
+          </h2>
+          <div class="flex-1 bg-black/40 rounded-xl border border-blue-500/30 overflow-hidden">
+            <pre class="text-sm p-6 overflow-auto h-full whitespace-pre-wrap text-blue-300 font-mono">{{ exportHtml().css }}</pre>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
-  <div class="mt-4">
-    <h3 class="text-sm font-semibold mb-2 text-white">Estructura Completa (Páginas + Componentes)</h3>
-    <pre class="text-xs bg-gray-100 p-2 rounded h-80 overflow-auto whitespace-pre-wrap">
-  {{ pages | json }}
-    </pre>
-  </div> -->
-
-  <button class="w-full bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700" (click)="openHtmlModal()">
-    Ver HTML generado
-  </button>
-
-
 </aside>
 
+<style>
+.component-card {
+  @apply w-full p-3 bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl hover:bg-white/10 hover:border-white/20 transition-all duration-300 transform hover:scale-[1.02] active:scale-[0.98] text-left;
+}
 
-<!-- Modal HTML generado --><!-- Modal HTML generado -->
-<div *ngIf="isModalOpen" class="fixed inset-0 bg-black bg-opacity-50 z-50 flex justify-center items-center">
-  <div class="bg-white rounded shadow-lg p-6 w-[90%] max-h-[90%] overflow-auto relative grid grid-cols-2 gap-6">
-    <div>
-      <h2 class="text-lg font-semibold mb-2">HTML</h2>
-      <pre class="text-sm bg-gray-100 p-4 rounded overflow-auto whitespace-pre-wrap max-h-[70vh]">
-{{ exportHtml().html }}
-      </pre>
-    </div>
-    <div>
-      <h2 class="text-lg font-semibold mb-2">CSS</h2>
-      <pre class="text-sm bg-gray-100 p-4 rounded overflow-auto whitespace-pre-wrap max-h-[70vh]">
-{{ exportHtml().css }}
-      </pre>
-    </div>
-    <button class="absolute top-2 right-2 text-red-500 hover:text-red-700" (click)="isModalOpen = false">
-      ✖
-    </button>
-  </div>
-</div>
+.component-card:hover {
+  box-shadow: 0 4px 20px rgba(139, 92, 246, 0.15);
+}
 
+/* Custom scrollbar */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
 
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
 
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(139, 92, 246, 0.6);
+  border-radius: 3px;
+}
 
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(139, 92, 246, 0.8);
+}
+
+/* Animations */
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes zoom-in {
+  from { 
+    transform: scale(0.9);
+    opacity: 0;
+  }
+  to { 
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes slide-down {
+  from {
+    opacity: 0;
+    transform: translateY(-10px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes slide-up {
+  from {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-10px) scale(0.95);
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.3s ease-out forwards;
+}
+
+.animate-zoom-in {
+  animation: zoom-in 0.3s ease-out forwards;
+}
+
+.animate-slide-down {
+  animation: slide-down 0.3s ease-out forwards;
+}
+
+.animate-slide-up {
+  animation: slide-up 0.3s ease-out forwards;
+}
+</style>
