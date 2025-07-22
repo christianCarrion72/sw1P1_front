@@ -248,5 +248,16 @@ export class SokectSevice {
     });
   }
   
+  // Variable para almacenar la página actual
+  private currentPageData: any = null;
   
+  // Método para obtener la página actual
+  getCurrentPage(): any {
+    return this.currentPageData;
+  }
+  
+  // Método para establecer la página actual
+  setCurrentPage(page: any): void {
+    this.currentPageData = page;
+  }
 }

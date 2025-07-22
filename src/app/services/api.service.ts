@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable, throwError } from 'rxjs';
 import { tap, catchError } from 'rxjs/operators';
+import { environment } from '../../environments/environment';
 
 interface LoginResponse {
   token: string;
@@ -11,7 +12,7 @@ interface LoginResponse {
   providedIn: 'root',
 })
 export class ApiService {
-  apiUrl: string = 'http://localhost:3000/api'; //api poner la pai base
+  apiUrl: string = environment.apiUrl;
   tokenKey = 'authToken';
 
   constructor(private http: HttpClient, private router: Router) {}
@@ -122,5 +123,34 @@ export class ApiService {
     console.log('logout');
     localStorage.removeItem(this.tokenKey); // Elimina el token del almacenamiento local
     this.router.navigate(['']); // Redirige al usuario a la página de login
+  }
+
+  /**
+   * Analiza una imagen y devuelve una descripción
+   * @param imageOrFormData Archivo de imagen o FormData con la imagen y el prompt
+   * @param prompt Instrucción para el análisis (opcional si se pasa FormData)
+   */
+  analyzeImageAngular(imageOrFormData: File | FormData, prompt?: string): Observable<any> {
+    let formData: FormData;
+    
+    if (imageOrFormData instanceof FormData) {
+      // Si ya es un FormData, lo usamos directamente
+      formData = imageOrFormData;
+    } else {
+      // Si es un File, creamos un nuevo FormData
+      formData = new FormData();
+      formData.append('image', imageOrFormData);
+      formData.append('prompt', prompt || 'Describe la imagen para una interfaz web en Angular');
+    }
+    
+    return this.http.post(`http://localhost:5000/analyze-image-angular`, formData);
+  }
+
+  /**
+   * Envía una consulta a la API de Angular para generar componentes
+   * @param question Consulta o descripción para generar componentes
+   */
+  angularQuery(question: string): Observable<any> {
+    return this.http.post(`http://localhost:5000/angular-query`, { question });
   }
 }

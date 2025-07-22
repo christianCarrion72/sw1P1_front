@@ -233,7 +233,14 @@ selectedPageId: string = '';
   }
 
   getCurrentPage(): Page | null {
-    return this.pages.find(p => p.id === this.selectedPageId) || null;
+    const currentPage = this.pages.find(p => p.id === this.selectedPageId) || null;
+    
+    // Actualizamos la página actual en el servicio de socket
+    if (currentPage) {
+      this.SokectSevice.setCurrentPage(currentPage);
+    }
+    
+    return currentPage;
   }
 
   selectPage(pageId: string) {
@@ -248,6 +255,9 @@ selectedPageId: string = '';
         const index = this.pages.findIndex(p => p.id === page.id);
         if (index !== -1) {
           this.pages[index] = page; // Reemplazamos la página en local
+          
+          // Actualizamos la página actual en el servicio de socket
+          this.SokectSevice.setCurrentPage(page);
         }
         this.cdr.detectChanges();
       }
