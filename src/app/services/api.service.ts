@@ -143,7 +143,7 @@ export class ApiService {
       formData.append('prompt', prompt || 'Describe la imagen para una interfaz web en Angular');
     }
     
-    return this.http.post(`http://localhost:5000/analyze-image-angular`, formData);
+    return this.http.post(`https://openaisw1-production.up.railway.app/analyze-image-angular`, formData);
   }
 
   /**
@@ -151,6 +151,6 @@ export class ApiService {
    * @param question Consulta o descripción para generar componentes
    */
   angularQuery(question: string): Observable<any> {
-    return this.http.post(`http://localhost:5000/angular-query`, { question });
+    return this.http.post(`https://openaisw1-production.up.railway.app/angular-query`, { question });
   }
 }

@@ -52,7 +52,7 @@ export class NavegationComponent implements OnInit {
   }
 
   downloadAngularProject() {
-    const url = `http://localhost:3000/api/export/angular/${this.roomCode}`;
+    const url = `https://sw1p1-back.onrender.com/api/export/angular/${this.roomCode}`;
     window.open(url, '_blank'); // Abre la descarga del zip en otra pestaña
   }
   
